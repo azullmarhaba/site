@@ -1,0 +1,96 @@
+/* ============================================================
+   AZUL brand tokens — dark cinematic + warm ivory
+   Loaded before Tailwind's @theme in globals.css
+   ============================================================ */
+
+:root {
+  /* Core palette */
+  --azul-obsidian: #080808;
+  --azul-deep: #111111;
+  --azul-ivory: #f5f1e8;
+  --azul-sand: #c89b6d;
+  --azul-clay: #9e2f2f;
+  --azul-atlas: #53624d;
+
+  /* Derived surfaces (dark base) */
+  --surface-0: var(--azul-obsidian);
+  --surface-1: #101010;
+  --surface-2: #171614;
+  --hairline-dark: rgba(245, 241, 232, 0.12);
+  --hairline-soft: rgba(245, 241, 232, 0.07);
+
+  /* Text on dark */
+  --ink-on-dark: var(--azul-ivory);
+  --ink-on-dark-muted: rgba(245, 241, 232, 0.64);
+  --ink-on-dark-faint: rgba(245, 241, 232, 0.38);
+
+  /* Text on ivory */
+  --ink-on-light: #16150f;
+  --ink-on-light-muted: rgba(22, 21, 15, 0.66);
+
+  /* Motion */
+  --ease-azul: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-azul-in: cubic-bezier(0.55, 0, 0.67, 0.21);
+
+  /* Decorative map lines (MoroccoMap SVG) */
+  --map-grid: rgba(245, 241, 232, 0.05);
+  --map-arch: rgba(200, 155, 109, 0.18);
+  --map-arch-soft: rgba(200, 155, 109, 0.12);
+  --map-route: rgba(245, 241, 232, 0.12);
+  --map-label: rgba(245, 241, 232, 0.18);
+
+  /* Rhythm */
+  --nav-height: 76px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-space: clamp(5rem, 10vw, 9rem);
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   Light theme — applied when <html data-theme="light">
+   Every brand token inverts so all Tailwind utilities built
+   on --color-* (text-ivory, bg-obsidian, border-sand, …)
+   restyle the whole app automatically.
+   ============================================================ */
+html[data-theme="light"] {
+  /* Core palette — paper replaces obsidian, ink replaces ivory */
+  --azul-obsidian: #f6f2e9;
+  --azul-deep: #efe9db;
+  --azul-ivory: #191712;
+  --azul-sand: #8a5a2b;
+  --azul-clay: #9e2f2f;
+  --azul-atlas: #46543f;
+
+  /* Derived surfaces (light base) */
+  --surface-0: #f6f2e9;
+  --surface-1: #f1ebdd;
+  --surface-2: #e7e0d1;
+  --hairline-dark: rgba(25, 23, 18, 0.13);
+  --hairline-soft: rgba(25, 23, 18, 0.08);
+
+  /* Ink on the paper surfaces */
+  --ink-on-dark: #191712;
+  --ink-on-dark-muted: rgba(25, 23, 18, 0.66);
+  --ink-on-dark-faint: rgba(25, 23, 18, 0.4);
+
+  /* Paper on the ink (inverted) bands */
+  --ink-on-light: #f6f2e9;
+  --ink-on-light-muted: rgba(246, 242, 233, 0.7);
+
+  /* Decorative map lines — darker ink on the paper map */
+  --map-grid: rgba(25, 23, 18, 0.06);
+  --map-arch: rgba(138, 90, 43, 0.35);
+  --map-arch-soft: rgba(138, 90, 43, 0.24);
+  --map-route: rgba(25, 23, 18, 0.14);
+  --map-label: rgba(25, 23, 18, 0.3);
+
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ease-azul: linear;
+    --ease-azul-in: linear;
+  }
+}

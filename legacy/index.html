@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Azul Agency — bespoke journeys through Marrakech and Morocco. Desert escapes, medina rituals, and Atlas treks, crafted by local experts.">
+  <title>Azul Agency — Bespoke Travel in Marrakech, Morocco</title>
+  <link rel="icon" href="logos/logo_darkmode.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body class="is-loading">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ PRELOADER ============ -->
+  <div id="preloader" class="preloader" role="status" aria-live="polite" aria-busy="true" aria-label="Loading Azul Agency">
+    <video class="preloader__video" src="video/Video%20Project.mp4" muted playsinline preload="auto" disablepictureinpicture aria-hidden="true"></video>
+    <div class="preloader__veil" aria-hidden="true"></div>
+
+    <div class="preloader__content">
+      <img class="preloader__logo" src="logos/logo_darkmode.png" alt="" width="120" height="120">
+      <p class="preloader__brand">AZUL AGENCY</p>
+      <p class="preloader__tag">Marrakech · Morocco</p>
+
+      <div class="preloader__bar" aria-hidden="true">
+        <span class="preloader__fill"></span>
+      </div>
+      <p class="preloader__count"><span data-preloader-count>0</span>%</p>
+    </div>
+
+    <button type="button" class="preloader__skip" data-preloader-skip>Skip intro</button>
+  </div>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="nav" data-nav>
+    <div class="nav__inner container">
+      <a class="nav__brand" href="#home" aria-label="Azul Agency — home">
+        <img class="nav__logo" src="logos/logo_lightmode.png" alt="" width="44" height="44">
+        <span class="nav__wordmark">AZUL <em>Agency</em></span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <ul>
+          <li><a href="#home" class="nav__link is-active">Home</a></li>
+          <li><a href="#destinations" class="nav__link">Destinations</a></li>
+          <li><a href="#experiences" class="nav__link">Experiences</a></li>
+          <li><a href="#about" class="nav__link">About</a></li>
+          <li><a href="#contact" class="nav__link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a href="#contact" class="btn btn--accent nav__cta">Plan your trip</a>
+
+      <button type="button" class="nav__burger" data-nav-toggle
+              aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span class="nav__burger-line"></span>
+        <span class="nav__burger-line"></span>
+        <span class="nav__burger-line"></span>
+      </button>
+    </div>
+
+    <div class="nav__progress" aria-hidden="true"><span data-scroll-progress></span></div>
+  </header>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <div class="menu" id="mobile-menu" data-menu hidden>
+    <nav class="menu__panel" aria-label="Mobile">
+      <p class="menu__eyebrow">Menu</p>
+      <ul class="menu__list">
+        <li style="--i:0"><a href="#home" class="menu__link">Home</a></li>
+        <li style="--i:1"><a href="#destinations" class="menu__link">Destinations</a></li>
+        <li style="--i:2"><a href="#experiences" class="menu__link">Experiences</a></li>
+        <li style="--i:3"><a href="#about" class="menu__link">About</a></li>
+        <li style="--i:4"><a href="#contact" class="menu__link">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn btn--accent menu__cta">Plan your trip</a>
+      <p class="menu__meta">Derb Moullay Abdullah Ben Hezzian 2 · Marrakech 40000</p>
+    </nav>
+  </div>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="home">
+      <div class="hero__aurora" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <p class="eyebrow">Travel agency · Marrakech, Morocco</p>
+        <h1 class="hero__title">Morocco,<br><em>made personal.</em></h1>
+        <p class="hero__lead">Private desert camps, medina secrets, and Atlas summits — designed
+          by Marrakech locals, travelled by few.</p>
+        <div class="hero__actions">
+          <a href="#destinations" class="btn btn--accent">Explore journeys</a>
+          <a href="#experiences" class="btn btn--ghost">How we travel</a>
+        </div>
+        <dl class="hero__stats">
+          <div><dt>12+</dt><dd>Years crafting trips</dd></div>
+          <div><dt>4.9</dt><dd>Average guest rating</dd></div>
+          <div><dt>100%</dt><dd>Local guides</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ DESTINATIONS ============ -->
+    <section class="section" id="destinations">
+      <div class="container">
+        <p class="eyebrow">Destinations</p>
+        <h2 class="section__title">Where we'll take you</h2>
+        <div class="cards">
+          <article class="card">
+            <span class="card__index">01</span>
+            <h3 class="card__title">Sahara Desert</h3>
+            <p class="card__text">Sunset camel caravans and a private camp under a billion stars
+              in Merzouga.</p>
+            <a class="card__link" href="#contact">Request itinerary <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="card">
+            <span class="card__index">02</span>
+            <h3 class="card__title">The Medina</h3>
+            <p class="card__text">Rooftop mint tea, hidden riads, and artisan workshops behind
+              unmarked doors.</p>
+            <a class="card__link" href="#contact">Request itinerary <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="card">
+            <span class="card__index">03</span>
+            <h3 class="card__title">High Atlas</h3>
+            <p class="card__text">Berber villages, terraced valleys, and guided treks to Toubkal's
+              4,167 m summit.</p>
+            <a class="card__link" href="#contact">Request itinerary <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCES ============ -->
+    <section class="section section--alt" id="experiences">
+      <div class="container split">
+        <div class="split__intro">
+          <p class="eyebrow">Experiences</p>
+          <h2 class="section__title">Travel at the pace of scent, sound and light</h2>
+          <p class="section__lead">Every journey is private, flexible, and hosted by guides who
+            were born within the ramparts.</p>
+        </div>
+        <ul class="ticks">
+          <li>Private drivers &amp; English, French &amp; Arabic-speaking guides</li>
+          <li>Chef-prepared tagine in a riad courtyard</li>
+          <li>Sunrise hot-air balloon over the palmeraie</li>
+          <li>Agafay desert glamping, 40 minutes from the city</li>
+          <li>Hammam &amp; spa afternoons in the old town</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section" id="about">
+      <div class="container narrow">
+        <p class="eyebrow">About</p>
+        <h2 class="section__title">A small studio of travelmakers</h2>
+        <p class="section__lead">Azul Agency is a Marrakech-based travel studio. We don't sell
+          packages — we compose trips. Tell us how you like to move, eat, and wander, and we'll
+          build the rest around you.</p>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section section--cta" id="contact">
+      <div class="container narrow center">
+        <p class="eyebrow">Contact</p>
+        <h2 class="section__title">Let's plan your Marrakech</h2>
+        <p class="section__lead">Share a few dates and ideas — we reply within one working day.</p>
+        <a class="btn btn--accent btn--lg" href="mailto:hello@azulagency.ma">hello@azulagency.ma</a>
+        <p class="section__phone">+212 5 24 00 00 00</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span data-year>2026</span> Azul Agency — Marrakech, Morocco</p>
+      <p class="footer__note">Crafted with care in the red city.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

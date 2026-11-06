@@ -1,0 +1,2048 @@
+/goal
+
+You are now operating as a DRAGON-LEVEL SENIOR SOFTWARE ARCHITECT, CREATIVE DIRECTOR, UX/UI DESIGNER, FULL-STACK ENGINEER, MOTION DESIGNER, DATABASE ARCHITECT, SECURITY ENGINEER and PERFORMANCE ENGINEER.
+
+Your mission is to DESIGN AND BUILD a production-quality digital tourism platform for:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AZUL
+MARHABA MOROCCO 2027
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PROJECT VISION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+AZUL is not a generic travel-agency website.
+
+It is a premium, immersive Moroccan tourism and excursion platform designed around:
+
+• Moroccan hospitality
+• Amazigh/Moroccan cultural identity
+• Marrakech and Morocco tourism
+• Premium travel experiences
+• Excursions
+• Adventure
+• Nature
+• Culture
+• Luxury
+• Desert experiences
+• Smart trip planning
+• Online booking
+• Customer management
+• Agency operations
+
+The digital experience must communicate:
+
+PREMIUM
+CULTURAL
+EMOTIONAL
+MODERN
+CINEMATIC
+TRUSTWORTHY
+INTERNATIONAL
+MOROCCAN
+FAST
+ELEGANT
+
+Core brand statement:
+
+"YOUR MOROCCO STARTS HERE."
+
+Alternative supporting statement:
+
+"Discover Morocco. Feel the Welcome."
+
+DO NOT build a template-looking tourism website.
+
+DO NOT create a generic dashboard.
+
+DO NOT overuse Moroccan clichés.
+
+DO NOT use excessive decorative elements.
+
+DO NOT make every section animated.
+
+The design philosophy is:
+
+MOROCCAN CULTURE × INTERNATIONAL LUXURY × DIGITAL EXPERIENCE
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. NON-NEGOTIABLE DEVELOPMENT PRINCIPLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You must work like a senior engineering team.
+
+Before writing code:
+
+1. Inspect the existing repository.
+2. Inspect package.json.
+3. Inspect all existing source files.
+4. Inspect all existing assets.
+5. Inspect the supplied AZUL logo assets.
+6. Determine what already exists.
+7. Reuse working code when appropriate.
+8. Do not destroy existing functionality without a reason.
+9. Create a clear architecture before implementation.
+10. Maintain a production-ready codebase.
+
+Never blindly overwrite the project.
+
+Never create duplicate components.
+
+Never create fake implementations when a real implementation is possible.
+
+Never leave obvious TODO placeholders.
+
+Never write:
+
+"coming soon"
+
+"TODO"
+
+"implement later"
+
+unless the feature genuinely depends on an external service and the limitation is documented.
+
+Every major feature must be connected end-to-end.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. TECHNOLOGY STACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FRONTEND:
+
+• Next.js latest stable
+• App Router
+• TypeScript
+• React
+• Tailwind CSS
+• Framer Motion
+• GSAP
+• GSAP ScrollTrigger
+• Three.js where genuinely useful
+• React Three Fiber where appropriate
+• Lucide Icons
+• Zod
+• React Hook Form
+
+BACKEND:
+
+Use Next.js server architecture/API routes OR a clean Node.js backend architecture if the existing repository already uses one.
+
+DATABASE:
+
+MYSQL
+
+The database MUST run through:
+
+XAMPP
+
+Database management:
+
+phpMyAdmin
+
+Database engine:
+
+MySQL / MariaDB supplied by XAMPP
+
+ORM:
+
+Prisma
+
+IMPORTANT:
+
+Do NOT replace XAMPP with PostgreSQL.
+
+Do NOT introduce MongoDB.
+
+Do NOT use SQLite.
+
+The development database must be compatible with:
+
+XAMPP + MySQL/MariaDB + phpMyAdmin.
+
+Example development configuration:
+
+DATABASE_URL="mysql://root:@localhost:3306/azul_morocco"
+
+The exact database name may be changed if necessary, but document it clearly.
+
+Use environment variables.
+
+NEVER hardcode production credentials.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. DATABASE REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Design a professional relational MySQL database.
+
+Core entities should include at minimum:
+
+User
+Role
+Permission
+Customer
+Experience
+ExperienceCategory
+Destination
+Tour
+TourDate
+Availability
+Booking
+BookingItem
+BookingGuest
+Payment
+Coupon
+Review
+Favorite
+Guide
+Vehicle
+VehicleCategory
+PickupLocation
+Media
+Gallery
+BlogPost
+BlogCategory
+FAQ
+ContactMessage
+Notification
+SiteSetting
+Translation
+AuditLog
+
+Use:
+
+• Primary keys
+• Foreign keys
+• Unique constraints
+• Indexes
+• createdAt
+• updatedAt
+• appropriate status enums
+• soft deletion where appropriate
+• relational integrity
+
+Design the schema professionally.
+
+Example booking lifecycle:
+
+PENDING
+CONFIRMED
+PAID
+IN_PROGRESS
+COMPLETED
+CANCELLED
+REFUNDED
+
+Payment lifecycle:
+
+PENDING
+AUTHORIZED
+PAID
+FAILED
+REFUNDED
+CANCELLED
+
+Do not store sensitive payment-card information.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. XAMPP DATABASE SETUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The project must work with:
+
+XAMPP Control Panel
+
+Required services:
+
+• MySQL
+• Apache is optional unless required by another local service.
+
+Database:
+
+azul_morocco
+
+The project must provide:
+
+• Prisma schema
+• migrations
+• seed script
+• sample data
+• database setup documentation
+
+Create a professional README section:
+
+"XAMPP + MySQL Setup"
+
+Include:
+
+1. Start XAMPP.
+2. Start MySQL.
+3. Open phpMyAdmin.
+4. Create database if required.
+5. Configure .env.
+6. Install dependencies.
+7. Run Prisma migration.
+8. Run seed.
+9. Start development server.
+
+Example:
+
+npm install
+
+npx prisma generate
+
+npx prisma migrate dev
+
+npm run db:seed
+
+npm run dev
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. BRAND IDENTITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Brand:
+
+AZUL
+
+Descriptor:
+
+MARHABA MOROCCO 2027
+
+The supplied logo is the primary visual reference.
+
+Use the provided light-mode and dark-mode logo assets.
+
+Do not redesign the logo automatically.
+
+Do not distort the logo.
+
+Do not change its proportions.
+
+Create a proper brand asset structure.
+
+Suggested:
+
+public/
+  brand/
+    azul-logo-light.png
+    azul-logo-dark.png
+    azul-icon.png
+    favicon/
+    social/
+
+If the existing files have different names, inspect them and use the real paths.
+
+The logo must remain crisp at:
+
+• desktop
+• tablet
+• mobile
+• favicon
+• social avatar
+• navigation
+• footer
+• loading screen
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. VISUAL DIRECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Design inspiration:
+
+• Apple-level simplicity
+• Stripe-level clarity
+• Linear-level interface quality
+• Aesop-level editorial restraint
+• Premium Moroccan hospitality
+• High-end travel magazines
+• Contemporary architecture
+• Cinematic travel documentaries
+
+Do NOT copy any company's design.
+
+Use inspiration only as a quality benchmark.
+
+Primary visual direction:
+
+DARK CINEMATIC
++
+WARM IVORY
++
+SUBTLE MOROCCAN ACCENTS
+
+Suggested palette:
+
+Obsidian:
+#080808
+
+Deep Black:
+#111111
+
+Ivory:
+#F5F1E8
+
+Warm Sand:
+#C89B6D
+
+Moroccan Red:
+#9E2F2F
+
+Atlas Green:
+#53624D
+
+Use accent colors carefully.
+
+The dominant interface should remain sophisticated and restrained.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. TYPOGRAPHY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use a premium typography system.
+
+Display typography:
+
+Elegant editorial / luxury character.
+
+UI typography:
+
+Modern, highly readable sans-serif.
+
+Arabic typography:
+
+Use a modern Arabic typeface with excellent readability.
+
+Establish:
+
+• H1
+• H2
+• H3
+• H4
+• body
+• caption
+• navigation
+• buttons
+• labels
+• pricing
+• metadata
+
+Typography must have consistent:
+
+• font weights
+• line heights
+• letter spacing
+• responsive scaling
+
+Do not randomly mix fonts.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. MULTILINGUAL SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Primary languages:
+
+EN
+FR
+AR
+
+Architecture must support future languages.
+
+Arabic MUST support true RTL.
+
+Do not simply translate text while keeping the same layout.
+
+RTL must correctly handle:
+
+• navigation
+• grids
+• buttons
+• forms
+• booking
+• cards
+• animations
+• icons
+• directional arrows
+• spacing
+
+Language selector:
+
+EN | FR | AR
+
+Translations must be structured for scalability.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. PUBLIC WEBSITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create:
+
+/
+
+Homepage
+
+/destinations
+
+/destinations/[slug]
+
+/experiences
+
+/experiences/[slug]
+
+/tours
+
+/tours/[slug]
+
+/plan-my-trip
+
+/about
+
+/contact
+
+/blog
+
+/blog/[slug]
+
+/faq
+
+/reviews
+
+/book/[experience]
+
+/booking/[reference]
+
+/privacy
+
+/terms
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. HOMEPAGE EXPERIENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The homepage must feel like entering Morocco.
+
+OPENING:
+
+Dark cinematic loading experience.
+
+Display AZUL logo.
+
+Subtle logo animation.
+
+Then transition into the hero.
+
+Hero message:
+
+AZUL
+
+MARHABA MOROCCO 2027
+
+"YOUR MOROCCO STARTS HERE."
+
+CTA:
+
+EXPLORE MOROCCO
+
+Secondary CTA:
+
+PLAN MY JOURNEY
+
+
+HERO:
+
+Use cinematic Moroccan imagery/video if assets exist.
+
+If video assets do not exist, create an elegant image-based composition.
+
+Avoid stock-photo collage aesthetics.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. HOMEPAGE SECTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SECTION 01
+HERO
+
+SECTION 02
+DISCOVER MOROCCO
+
+Editorial destination presentation.
+
+SECTION 03
+SIGNATURE EXPERIENCES
+
+Display premium experience cards.
+
+Categories:
+
+Adventure
+Culture
+Nature
+Desert
+Luxury
+Food
+
+SECTION 04
+INTERACTIVE MOROCCO
+
+Interactive destination map.
+
+SECTION 05
+WHY AZUL
+
+Trust indicators.
+
+Examples:
+
+Local expertise
+Verified experiences
+Professional guides
+Flexible booking
+Authentic experiences
+
+SECTION 06
+PLAN YOUR JOURNEY
+
+Interactive trip planner CTA.
+
+SECTION 07
+MARRAKECH
+
+Strong Marrakech storytelling section.
+
+SECTION 08
+ATLAS
+
+Mountain experience.
+
+SECTION 09
+DESERT
+
+Agafay / Sahara experience.
+
+SECTION 10
+TRAVEL STORIES
+
+Editorial content.
+
+SECTION 11
+REVIEWS
+
+Realistic review component architecture.
+
+SECTION 12
+FINAL CTA
+
+"YOUR MOROCCO STARTS HERE."
+
+SECTION 13
+FOOTER
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. INTERACTIVE MOROCCO MAP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create a premium interactive Morocco exploration experience.
+
+Destinations:
+
+Marrakech
+Atlas Mountains
+Agafay
+Essaouira
+Ouarzazate
+Merzouga
+Chefchaouen
+Rabat
+Casablanca
+Ouzoud
+Ourika
+
+Desktop:
+
+Interactive map / visual geography.
+
+Mobile:
+
+Beautiful scrollable destination selector.
+
+Hover/click should reveal:
+
+• destination name
+• short description
+• experiences
+• best season
+• duration
+• CTA
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. TRIP PLANNER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create:
+
+/plan-my-trip
+
+The user chooses:
+
+1. Number of days
+2. Travel style
+3. Interests
+4. Destination preferences
+5. Budget
+6. Group type
+
+Travel types:
+
+Solo
+Couple
+Family
+Friends
+Group
+
+Interests:
+
+Adventure
+Culture
+Nature
+Food
+Luxury
+Desert
+Photography
+Relaxation
+
+Generate a recommended itinerary.
+
+Example:
+
+7 DAYS
+
+MARRAKECH
+→ ATLAS
+→ AGAFAY
+→ ESSAOUIRA
+
+Display:
+
+Day
+Destination
+Experience
+Duration
+Description
+Estimated cost
+
+Allow:
+
+SAVE JOURNEY
+SHARE JOURNEY
+BOOK JOURNEY
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+14. EXPERIENCE SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Experience cards must contain:
+
+Image
+Category
+Title
+Location
+Duration
+Rating
+Price
+Short description
+CTA
+
+Experience detail page:
+
+Hero
+Title
+Location
+Rating
+Price
+Duration
+
+Description
+
+Highlights
+
+Itinerary
+
+What's included
+
+What's not included
+
+Meeting point
+
+Pickup information
+
+Gallery
+
+Reviews
+
+FAQ
+
+Availability
+
+Booking CTA
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+15. BOOKING SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Build a real booking workflow.
+
+STEP 1
+
+Select date.
+
+STEP 2
+
+Select number of guests.
+
+STEP 3
+
+Select option:
+
+Private
+Group
+
+STEP 4
+
+Pickup location.
+
+STEP 5
+
+Customer information.
+
+STEP 6
+
+Special requests.
+
+STEP 7
+
+Price summary.
+
+STEP 8
+
+Payment.
+
+STEP 9
+
+Confirmation.
+
+Generate unique booking reference.
+
+Example:
+
+AZL-2027-000123
+
+Confirmation page must display:
+
+Booking reference
+Experience
+Date
+Guests
+Pickup
+Price
+Status
+
+Provide printable booking confirmation.
+
+QR code support may be added for booking verification.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+16. CUSTOMER ACCOUNT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create:
+
+/account
+
+Sections:
+
+Dashboard
+My Bookings
+Saved Experiences
+My Reviews
+Profile
+Preferences
+Notifications
+
+Users can:
+
+View bookings
+Cancel where policy permits
+Download confirmation
+Leave reviews
+Save experiences
+Edit profile
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+17. AUTHENTICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Implement secure authentication.
+
+Support:
+
+Email/password
+
+Optional architecture for:
+
+Google OAuth
+
+Roles:
+
+CUSTOMER
+GUIDE
+STAFF
+MANAGER
+ADMIN
+SUPER_ADMIN
+
+Use secure password hashing.
+
+Never store plaintext passwords.
+
+Implement:
+
+Login
+Register
+Logout
+Forgot password
+Reset password
+Email verification architecture
+Role-based authorization
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+18. ADMIN DASHBOARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create a serious agency operations dashboard.
+
+Route:
+
+/admin
+
+Dashboard sections:
+
+Overview
+Bookings
+Customers
+Experiences
+Categories
+Destinations
+Tours
+Availability
+Guides
+Vehicles
+Pickup Locations
+Payments
+Coupons
+Reviews
+Media
+Blog
+FAQs
+Messages
+Notifications
+Users
+Roles
+Permissions
+Translations
+Settings
+Audit Logs
+
+Dashboard overview:
+
+Revenue
+Bookings
+Customers
+Popular experiences
+Upcoming tours
+Booking conversion
+Pending payments
+Recent reviews
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+19. ADMIN BOOKING MANAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Admin must be able to:
+
+Create booking
+Edit booking
+Confirm booking
+Cancel booking
+Refund booking
+Assign guide
+Assign vehicle
+Change pickup
+Change date
+Change guest count
+Add notes
+View customer
+View payment
+Generate confirmation
+
+Use filters:
+
+Date
+Status
+Experience
+Guide
+Customer
+Payment status
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+20. EXPERIENCE MANAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Admin CRUD:
+
+Create
+Read
+Update
+Delete
+
+Fields:
+
+Title
+Slug
+Description
+Category
+Destination
+Duration
+Price
+Currency
+Capacity
+Difficulty
+Included
+Excluded
+Itinerary
+Meeting point
+Pickup availability
+Gallery
+Cover image
+Status
+SEO metadata
+Translations
+
+Status:
+
+DRAFT
+PUBLISHED
+ARCHIVED
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+21. MEDIA MANAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create media management architecture.
+
+Support:
+
+Images
+Videos
+Gallery images
+Experience covers
+Destination images
+Blog images
+
+Store metadata:
+
+filename
+alt text
+width
+height
+size
+mime type
+created date
+
+Optimize images.
+
+Use Next.js Image where appropriate.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+22. REVIEWS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Only verified customers should be able to submit verified booking reviews.
+
+Review fields:
+
+Rating
+Title
+Comment
+Photos optional
+Customer
+Experience
+Booking
+
+Admin moderation:
+
+Pending
+Approved
+Rejected
+
+Never create fake reviews in production.
+
+Seed data may contain clearly marked demo reviews.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+23. SEO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Implement professional SEO.
+
+Every public page needs:
+
+Title
+Description
+Canonical
+Open Graph
+Twitter metadata
+Structured data where appropriate
+
+Tourism structured data where appropriate.
+
+Generate:
+
+sitemap.xml
+robots.txt
+
+Optimize:
+
+headings
+semantic HTML
+internal links
+image alt text
+URLs
+metadata
+
+SEO must support:
+
+Morocco tourism
+Marrakech excursions
+Morocco tours
+Agafay desert
+Atlas Mountains
+Morocco travel experiences
+
+Do not keyword stuff.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+24. PERFORMANCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Target:
+
+Lighthouse 90+
+
+Optimize:
+
+LCP
+CLS
+INP
+TTFB
+
+Use:
+
+Next.js Image
+lazy loading
+dynamic imports
+code splitting
+server components where appropriate
+minimal client components
+optimized animations
+
+Do not load Three.js globally.
+
+Do not load huge libraries unnecessarily.
+
+Animations must not destroy mobile performance.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+25. RESPONSIVE DESIGN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The platform must be excellent at:
+
+320px
+375px
+390px
+414px
+768px
+1024px
+1280px
+1440px
+1920px+
+
+Mobile is NOT a reduced desktop design.
+
+Create intentional mobile experiences.
+
+Navigation:
+
+Desktop:
+full navigation
+
+Mobile:
+premium animated menu
+
+Ensure:
+
+buttons are touch-friendly
+forms are usable
+booking flow is easy
+images crop intelligently
+typography scales properly
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+26. MOTION DESIGN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use motion strategically.
+
+Preferred tools:
+
+Framer Motion
+GSAP
+ScrollTrigger
+
+Motion ideas:
+
+Logo reveal
+Hero image reveal
+Text masking
+Image parallax
+Destination transitions
+Horizontal storytelling
+Magnetic buttons
+Hover image transformations
+Page transitions
+Scroll progress
+Interactive map
+Card elevation
+Subtle cursor interactions
+
+Rules:
+
+60fps target.
+
+Respect:
+
+prefers-reduced-motion.
+
+Never make animation interfere with usability.
+
+Never animate every element.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+27. 3D STRATEGY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use Three.js only when it adds genuine value.
+
+Potential applications:
+
+Interactive Morocco globe/map
+3D destination visualization
+Subtle hero geometry
+Interactive terrain
+
+Do NOT create a heavy 3D website just to say "3D".
+
+The experience must remain fast.
+
+Mobile fallback must exist.
+
+If no 3D asset is available, use elegant 2D/motion alternatives.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+28. ACCESSIBILITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Target WCAG 2.2 AA principles.
+
+Implement:
+
+semantic HTML
+keyboard navigation
+visible focus
+ARIA where needed
+accessible forms
+proper labels
+alt text
+contrast
+reduced motion
+
+Do not rely only on color.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+29. SECURITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Implement:
+
+input validation
+Zod validation
+server-side authorization
+RBAC
+secure cookies
+CSRF considerations
+rate limiting architecture
+SQL injection protection through Prisma
+XSS prevention
+secure headers
+environment variables
+audit logs
+
+Never trust client-side authorization.
+
+Every protected API/action must verify authorization server-side.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+30. API ARCHITECTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create clean APIs for:
+
+Authentication
+Users
+Customers
+Experiences
+Destinations
+Tours
+Availability
+Bookings
+Payments
+Reviews
+Favorites
+Guides
+Vehicles
+Media
+Blog
+FAQ
+Contact
+Notifications
+Settings
+
+Use consistent responses.
+
+Handle:
+
+loading
+success
+validation errors
+authorization errors
+not found
+server errors
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+31. ERROR HANDLING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create:
+
+404 page
+500 page
+loading states
+skeleton loaders
+empty states
+error states
+success states
+
+Never leave users staring at blank screens.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+32. UI COMPONENT SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Build reusable components.
+
+Examples:
+
+Navbar
+MobileMenu
+Logo
+Footer
+Hero
+SectionHeading
+ExperienceCard
+DestinationCard
+TourCard
+ReviewCard
+BookingForm
+PriceSummary
+DatePicker
+GuestSelector
+MapExplorer
+TripPlanner
+Gallery
+Lightbox
+Modal
+Drawer
+Toast
+Tabs
+Accordion
+Input
+Select
+Button
+Badge
+Skeleton
+Pagination
+DataTable
+AdminSidebar
+AdminHeader
+StatsCard
+ChartCard
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+33. FOLDER ARCHITECTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create a clean architecture.
+
+Suggested:
+
+src/
+  app/
+    (marketing)/
+    destinations/
+    experiences/
+    tours/
+    plan-my-trip/
+    booking/
+    account/
+    admin/
+    api/
+
+  components/
+    brand/
+    navigation/
+    marketing/
+    experiences/
+    destinations/
+    booking/
+    account/
+    admin/
+    ui/
+
+  lib/
+    auth/
+    db/
+    validation/
+    permissions/
+    seo/
+    utils/
+
+  server/
+    services/
+    repositories/
+
+  prisma/
+    schema.prisma
+    seed.ts
+
+  types/
+
+  hooks/
+
+  config/
+
+  styles/
+
+public/
+  brand/
+  images/
+  icons/
+  videos/
+
+
+Adjust architecture intelligently if the existing project already has a better structure.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+34. SEED DATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create realistic demo data for:
+
+Destinations
+Experiences
+Categories
+Tours
+Customers
+Bookings
+Guides
+Vehicles
+Reviews
+Blog posts
+FAQs
+
+Example destinations:
+
+Marrakech
+Agafay
+Atlas Mountains
+Ourika
+Essaouira
+Ouarzazate
+Merzouga
+Chefchaouen
+Casablanca
+Rabat
+Ouzoud
+
+Do not use copyrighted imagery without permission.
+
+Use placeholders where necessary.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+35. ADMIN DEMO ACCOUNT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create a development-only seed admin.
+
+Credentials must be documented in the local README.
+
+IMPORTANT:
+
+Never hardcode production credentials.
+
+Never expose the seeded password in production.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+36. ENVIRONMENT VARIABLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create:
+
+.env.example
+
+Example structure:
+
+DATABASE_URL=
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+NEXT_PUBLIC_APP_URL=
+UPLOAD_PROVIDER=
+PAYMENT_PROVIDER=
+EMAIL_SERVER=
+EMAIL_FROM=
+
+Never commit .env.
+
+Create:
+
+.gitignore
+
+with:
+
+.env
+.env.local
+node_modules
+.next
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+37. CODE QUALITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use:
+
+TypeScript strict mode.
+
+Avoid:
+
+any
+unless absolutely necessary.
+
+Avoid duplicated logic.
+
+Avoid giant components.
+
+Avoid giant files.
+
+Extract reusable functionality.
+
+Use clear naming.
+
+Use clean imports.
+
+Keep business logic out of presentation components.
+
+Use services for complex business operations.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+38. DESIGN QUALITY CONTROL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before declaring a page complete, evaluate:
+
+Visual hierarchy
+Spacing
+Typography
+Alignment
+Contrast
+Responsive behavior
+Animation
+Accessibility
+Loading states
+Empty states
+Error states
+Mobile behavior
+Performance
+
+Ask internally:
+
+"Would a senior creative agency ship this?"
+
+If the answer is no:
+
+IMPROVE IT.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+39. NO GENERIC AI DESIGN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Avoid:
+
+• excessive rounded cards
+• random gradients
+• meaningless glassmorphism
+• excessive shadows
+• generic purple/blue SaaS aesthetics
+• oversized icons
+• unnecessary badges
+• excessive pills
+• stock dashboard layouts
+• repetitive cards
+• visual noise
+• fake 3D
+• excessive animations
+
+The interface should feel:
+
+EDITORIAL
+ARCHITECTURAL
+CINEMATIC
+PREMIUM
+MOROCCAN
+DIGITAL
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+40. DEVELOPMENT WORKFLOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DO NOT attempt to build everything in one uncontrolled operation.
+
+Work sequentially.
+
+PHASE 01
+Repository audit
+
+PHASE 02
+Architecture
+
+PHASE 03
+Brand/design system
+
+PHASE 04
+Database schema
+
+PHASE 05
+Prisma + XAMPP connection
+
+PHASE 06
+Core UI system
+
+PHASE 07
+Homepage
+
+PHASE 08
+Destinations
+
+PHASE 09
+Experiences
+
+PHASE 10
+Trip planner
+
+PHASE 11
+Booking engine
+
+PHASE 12
+Authentication
+
+PHASE 13
+Customer dashboard
+
+PHASE 14
+Admin dashboard
+
+PHASE 15
+Reviews
+
+PHASE 16
+CMS/content
+
+PHASE 17
+SEO
+
+PHASE 18
+Security
+
+PHASE 19
+Performance
+
+PHASE 20
+Responsive QA
+
+PHASE 21
+Production preparation
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+41. AFTER EACH PHASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+After completing each phase:
+
+1. Run type checking.
+2. Run lint.
+3. Run tests where available.
+4. Fix errors.
+5. Verify imports.
+6. Verify routes.
+7. Verify database integration where applicable.
+8. Verify responsive behavior.
+9. Continue only when the phase is stable.
+
+Never accumulate known errors.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+42. DATABASE-FIRST RULE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before creating complex admin interfaces:
+
+MAKE THE DATABASE MODEL CORRECT.
+
+Before creating booking UI:
+
+MAKE BOOKING BUSINESS LOGIC CORRECT.
+
+Before creating payment UI:
+
+MAKE PAYMENT STATES CORRECT.
+
+Before creating dashboards:
+
+MAKE API/data architecture correct.
+
+Never create fake frontend-only data where the feature requires persistent database data.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+43. BOOKING BUSINESS LOGIC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Prevent:
+
+overbooking
+invalid dates
+negative guests
+invalid experience
+past booking dates
+capacity violations
+duplicate booking conflicts
+
+Calculate server-side:
+
+subtotal
+discount
+tax if applicable
+total
+
+Never trust price values sent by the client.
+
+Retrieve actual prices from the database.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+44. PAYMENT ARCHITECTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Design the system so payment providers can be added cleanly.
+
+Do not tightly couple the booking system to one provider.
+
+Use a payment service abstraction.
+
+Payment status must be stored in MySQL.
+
+Never store card numbers or CVV.
+
+If a real payment provider is not configured during development:
+
+use a DEVELOPMENT payment mode clearly separated from production.
+
+Do not fake production payment success.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+45. NOTIFICATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Architecture should support:
+
+Email
+WhatsApp integration later
+In-app notifications
+
+Events:
+
+Booking created
+Booking confirmed
+Booking cancelled
+Payment received
+Trip reminder
+Review request
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+46. WHATSAPP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create a floating WhatsApp contact component.
+
+Do not hardcode sensitive/private data into components.
+
+Use environment/configuration.
+
+Provide:
+
+"Chat with AZUL"
+
+"Ask about this experience"
+
+"Need help booking?"
+
+The component must not cover important mobile UI.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+47. CONTENT MANAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Admin should be able to manage:
+
+Homepage content
+Experiences
+Destinations
+Blog
+FAQs
+Reviews
+SEO metadata
+Translations
+Site settings
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+48. ANALYTICS ARCHITECTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Create clean analytics hooks/events for:
+
+Page view
+Experience view
+Trip planner started
+Trip planner completed
+Booking started
+Booking completed
+CTA clicked
+Destination selected
+
+Do not expose personal data unnecessarily.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+49. FINAL QA CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before declaring the project complete:
+
+[ ] npm install works
+[ ] development server works
+[ ] XAMPP MySQL connection works
+[ ] Prisma works
+[ ] migrations work
+[ ] seed works
+[ ] authentication works
+[ ] role permissions work
+[ ] homepage works
+[ ] destinations work
+[ ] experiences work
+[ ] booking works
+[ ] admin works
+[ ] customer account works
+[ ] reviews work
+[ ] responsive layout works
+[ ] RTL works
+[ ] SEO works
+[ ] sitemap works
+[ ] robots works
+[ ] loading states work
+[ ] error states work
+[ ] accessibility reviewed
+[ ] no console errors
+[ ] no TypeScript errors
+[ ] no obvious lint errors
+[ ] no broken routes
+[ ] no fake production functionality
+[ ] no exposed secrets
+[ ] performance reviewed
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+50. FINAL COMMANDMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DO NOT THINK LIKE A JUNIOR DEVELOPER.
+
+DO NOT THINK:
+
+"What is the fastest way to make this page?"
+
+THINK:
+
+"What is the best architecture, interaction, visual system and engineering decision for a production-grade Moroccan tourism platform?"
+
+Every decision must serve:
+
+BRAND
+UX
+PERFORMANCE
+ACCESSIBILITY
+SECURITY
+SCALABILITY
+CONVERSION
+
+The final result should feel like:
+
+A PREMIUM MOROCCAN DIGITAL TRAVEL BRAND
+
+not:
+
+A TEMPLATE.
+
+not:
+
+A SCHOOL PROJECT.
+
+not:
+
+AN AI-GENERATED LANDING PAGE.
+
+not:
+
+A GENERIC ADMIN DASHBOARD.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START NOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FIRST ACTION:
+
+DO NOT immediately start coding.
+
+First inspect the repository and produce:
+
+1. Current project structure
+2. Existing technologies
+3. Existing pages
+4. Existing components
+5. Existing assets
+6. Existing logo files
+7. Existing database configuration
+8. Existing environment configuration
+9. Existing problems/errors
+10. What can be reused
+11. What must be rebuilt
+12. Recommended architecture
+
+Then create:
+
+/docs/PROJECT-AUDIT.md
+
+and
+
+/docs/ARCHITECTURE.md
+
+After that, begin PHASE 01 and proceed sequentially.
+
+IMPORTANT:
+
+Complete each phase properly before moving to the next.
+
+Do not ask unnecessary questions.
+
+Make professional engineering decisions when requirements are obvious.
+
+If an important decision genuinely requires user input, stop only at that decision and explain the options clearly.
+
+Otherwise, EXECUTE.
+
+THE OBJECTIVE IS NOT TO PRODUCE A LOT OF CODE.
+
+THE OBJECTIVE IS TO PRODUCE AN EXCEPTIONAL PRODUCT.
+
+Build AZUL.
+
+Build it like a world-class digital tourism brand.

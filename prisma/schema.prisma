@@ -1,0 +1,985 @@
+// ============================================================
+// AZUL — MARHABA MOROCCO 2027
+// MySQL (XAMPP / MariaDB) · Prisma 7 · prisma-client generator
+// Money is stored in minor units (cents) — never floats.
+// ============================================================
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  // url is provided by prisma7.config.ts (DATABASE_URL from .env)
+}
+
+// ------------------------------------------------------------
+// Enums
+// ------------------------------------------------------------
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum RoleName {
+  CUSTOMER
+  GUIDE
+  STAFF
+  MANAGER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  PAID
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  REFUNDED
+}
+
+enum BookingMode {
+  PRIVATE
+  GROUP
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  PAID
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+enum PaymentMode {
+  DEVELOPMENT
+  LIVE
+}
+
+enum ExperienceStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum Difficulty {
+  EASY
+  MODERATE
+  CHALLENGING
+  DEMANDING
+}
+
+enum ContactStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  ARCHIVED
+}
+
+enum LeadStage {
+  LEAD
+  CONTACTED
+  QUALIFIED
+  PROPOSAL
+  WON
+  LOST
+}
+
+enum CrmActivityType {
+  NOTE
+  CALL
+  EMAIL
+  MEETING
+  STAGE
+}
+
+enum CrmTaskStatus {
+  OPEN
+  DONE
+}
+
+enum NotificationType {
+  BOOKING_CREATED
+  BOOKING_CONFIRMED
+  BOOKING_CANCELLED
+  PAYMENT_RECEIVED
+  TRIP_REMINDER
+  REVIEW_REQUEST
+  MESSAGE_RECEIVED
+  SYSTEM
+}
+
+enum AuthTokenType {
+  VERIFY_EMAIL
+  RESET_PASSWORD
+}
+
+// ------------------------------------------------------------
+// Identity & RBAC
+// ------------------------------------------------------------
+
+model User {
+  id             String     @id @default(cuid())
+  email          String     @unique
+  passwordHash   String?
+  name           String
+  phone          String?
+  status         UserStatus @default(ACTIVE)
+  emailVerifiedAt DateTime?
+  locale         String     @default("en")
+  avatarUrl      String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  deletedAt      DateTime?
+
+  customer    Customer?
+  guide       Guide?
+  roles       UserRole[]
+  tokens      AuthToken[]
+  favorites   Favorite[]
+  notifications Notification[]
+  auditLogs   AuditLog[]    @relation("AuditActor")
+  ownedCustomers Customer[]    @relation("CustomerOwner")
+  crmActivities  CrmActivity[] @relation("CrmActivityAuthor")
+  crmTasks       CrmTask[]     @relation("CrmTaskAssignee")
+  crmLeadsOwned  CrmLead[]    @relation("CrmLeadOwner")
+
+  @@index([status])
+  @@map("users")
+}
+
+model Role {
+  id          String           @id @default(cuid())
+  name        RoleName         @unique
+  description String?          @db.VarChar(255)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  users       UserRole[]
+  permissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  key         String           @unique // e.g. "booking:update"
+  description String?          @db.VarChar(255)
+  createdAt   DateTime         @default(now())
+  roles       RolePermission[]
+
+  @@map("permissions")
+}
+
+model UserRole {
+  userId String
+  roleId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model AuthToken {
+  id         String        @id @default(cuid())
+  userId     String
+  type       AuthTokenType
+  tokenHash  String        @unique
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime      @default(now())
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@map("auth_tokens")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  action    String   @db.VarChar(100)
+  entity    String   @db.VarChar(100)
+  entityId  String?
+  diff      Json?
+  ipAddress String?  @db.VarChar(45)
+  userAgent String?  @db.VarChar(512)
+  createdAt DateTime @default(now())
+  actor     User?    @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entity, entityId])
+  @@index([actorId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ------------------------------------------------------------
+// Customers
+// ------------------------------------------------------------
+
+model Customer {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  fullName  String
+  phone     String?
+  country   String?  @db.VarChar(2)
+  city      String?
+  locale    String   @default("en")
+  notes     String?  @db.Text
+  // --- CRM ---
+  stage           LeadStage @default(LEAD)
+  source          String?   @db.VarChar(120)
+  ownerId         String?
+  lastContactedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  owner     User?      @relation("CustomerOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  bookings  Booking[]
+  reviews   Review[]
+  tripPlans TripPlan[]
+  crmActivities CrmActivity[]
+  crmTasks      CrmTask[]
+  tags          CustomerTag[]
+  convertedLead CrmLead?
+
+  @@index([fullName])
+  @@index([stage])
+  @@index([ownerId])
+  @@map("customers")
+}
+
+// ------------------------------------------------------------
+// Catalog — categories, destinations, experiences, tours
+// ------------------------------------------------------------
+
+model ExperienceCategory {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  name        String       @db.VarChar(120)
+  description String?      @db.VarChar(512)
+  icon        String?      @db.VarChar(60)
+  position    Int          @default(0)
+  status      ContentStatus @default(PUBLISHED)
+  coverImageId String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+
+  coverImage  Media?      @relation("CategoryCover", fields: [coverImageId], references: [id], onDelete: SetNull)
+  experiences Experience[]
+
+  @@index([status, position])
+  @@map("experience_categories")
+}
+
+model Destination {
+  id           String    @id @default(cuid())
+  slug         String    @unique
+  name         String    @db.VarChar(120)
+  region       String?   @db.VarChar(120)
+  country      String    @default("Morocco") @db.VarChar(80)
+  latitude     Float?
+  longitude    Float?
+  description  String?   @db.Text
+  shortIntro   String?   @db.VarChar(400)
+  bestSeason   String?   @db.VarChar(120)
+  duration     String?   @db.VarChar(60) // recommended stay, e.g. "2–3 days"
+  mapX         Float?    // normalized 0..1 position on the interactive map
+  mapY         Float?
+  coverImageId String?
+  position     Int       @default(0)
+  status       ContentStatus @default(PUBLISHED)
+  featured     Boolean   @default(false)
+  seoTitle     String?   @db.VarChar(180)
+  seoDescription String? @db.VarChar(320)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  coverImage   Media?     @relation("DestinationCover", fields: [coverImageId], references: [id], onDelete: SetNull)
+  experiences  Experience[]
+  galleries    Gallery[]
+  tours        Tour[]
+
+  @@index([status, position])
+  @@index([featured, status])
+  @@map("destinations")
+}
+
+model Experience {
+  id                String         @id @default(cuid())
+  slug              String         @unique
+  title             String         @db.VarChar(200)
+  summary           String?        @db.VarChar(400)
+  description       String         @db.Text
+  categoryId        String
+  destinationId     String
+  durationMinutes   Int            @default(240)
+  priceMinor        Int            // per person, minor units
+  currency          String         @default("MAD") @db.VarChar(3)
+  capacityMin       Int            @default(1)
+  capacityMax       Int            @default(12)
+  difficulty        Difficulty     @default(MODERATE)
+  status            ExperienceStatus @default(DRAFT)
+  featured          Boolean        @default(false)
+  meetingPoint      String?        @db.VarChar(255)
+  pickupIncluded    Boolean        @default(true)
+  pickupNotes       String?        @db.VarChar(400)
+  highlights        Json? // string[]
+  includes          Json? // string[]
+  excludes          Json? // string[]
+  itinerary         Json? // [{ day, title, description, duration }]
+  cancelWindowHours Int            @default(48)
+  minBookingNoticeHours Int        @default(24)
+  coverImageId      String?
+  ratingAvg         Float          @default(0)
+  ratingCount       Int            @default(0)
+  bookingCount      Int            @default(0)
+  seoTitle          String?        @db.VarChar(180)
+  seoDescription    String?        @db.VarChar(320)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  deletedAt         DateTime?
+
+  category      ExperienceCategory @relation(fields: [categoryId], references: [id])
+  destination   Destination        @relation(fields: [destinationId], references: [id])
+  coverImage    Media?             @relation("ExperienceCover", fields: [coverImageId], references: [id], onDelete: SetNull)
+  availability  Availability[]
+  tours         Tour[]
+  bookings      Booking[]
+  reviews       Review[]
+  favorites     Favorite[]
+  gallery       Gallery[]
+  faqs          Faq[]
+
+  @@index([status, featured])
+  @@index([destinationId, status])
+  @@index([categoryId, status])
+  @@index([priceMinor])
+  @@map("experiences")
+}
+
+model Tour {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  title         String        @db.VarChar(200)
+  description   String        @db.Text
+  experienceId  String
+  destinationId String
+  status        ContentStatus @default(DRAFT)
+  priceMinor    Int
+  currency      String        @default("MAD") @db.VarChar(3)
+  capacity      Int           @default(12)
+  coverImageId  String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  deletedAt     DateTime?
+
+  experience  Experience  @relation(fields: [experienceId], references: [id])
+  destination Destination @relation(fields: [destinationId], references: [id])
+  coverImage  Media?      @relation("TourCover", fields: [coverImageId], references: [id], onDelete: SetNull)
+  dates       TourDate[]
+
+  @@index([status])
+  @@map("tours")
+}
+
+model TourDate {
+  id             String        @id @default(cuid())
+  tourId         String
+  date           DateTime      @db.Date
+  startTime      DateTime?
+  capacityTotal  Int
+  capacityBooked Int           @default(0)
+  status         ContentStatus @default(PUBLISHED)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  tour     Tour      @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@unique([tourId, date])
+  @@index([date])
+  @@map("tour_dates")
+}
+
+model Availability {
+  id             String   @id @default(cuid())
+  experienceId   String
+  date           DateTime @db.Date
+  capacityTotal  Int
+  capacityBooked Int      @default(0)
+  closed         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  experience Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+
+  @@unique([experienceId, date])
+  @@index([date])
+  @@map("availability")
+}
+
+model PickupLocation {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(160)
+  description String?  @db.VarChar(320)
+  address     String?  @db.VarChar(255)
+  latitude    Float?
+  longitude   Float?
+  position    Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  bookings Booking[]
+
+  @@index([active])
+  @@map("pickup_locations")
+}
+
+// ------------------------------------------------------------
+// Guides & fleet
+// ------------------------------------------------------------
+
+model Guide {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  bio          String?  @db.Text
+  languages    String?  @db.VarChar(255) // e.g. "EN,FR,AR,BER"
+  yearsExp     Int      @default(0)
+  licenseNumber String? @db.VarChar(80)
+  active       Boolean  @default(true)
+  ratingAvg    Float    @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  deletedAt    DateTime?
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicles Vehicle[]
+  bookings Booking[]
+
+  @@index([active])
+  @@map("guides")
+}
+
+model VehicleCategory {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String   @db.VarChar(120)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vehicles Vehicle[]
+
+  @@map("vehicle_categories")
+}
+
+model Vehicle {
+  id         String   @id @default(cuid())
+  categoryId String
+  guideId    String?
+  make       String   @db.VarChar(80)
+  model      String   @db.VarChar(80)
+  year       Int?
+  plate      String?  @db.VarChar(30)
+  seats      Int      @default(4)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  deletedAt  DateTime?
+
+  category VehicleCategory @relation(fields: [categoryId], references: [id])
+  guide    Guide?          @relation(fields: [guideId], references: [id], onDelete: SetNull)
+  bookings Booking[]
+
+  @@index([active])
+  @@map("vehicles")
+}
+
+// ------------------------------------------------------------
+// Commerce — bookings, payments, coupons, reviews, favorites
+// ------------------------------------------------------------
+
+model Booking {
+  id              String        @id @default(cuid())
+  reference       String        @unique // AZL-2027-000123
+  customerId      String
+  experienceId    String
+  tourDateId      String?
+  status          BookingStatus @default(PENDING)
+  mode            BookingMode   @default(PRIVATE)
+  date            DateTime      @db.Date
+  startTime       DateTime?
+  guests          Int           @default(1)
+  adults          Int           @default(1)
+  children        Int           @default(0)
+  pickupLocationId String?
+  pickupAddress   String?       @db.VarChar(255)
+  specialRequests String?       @db.Text
+  internalNotes   String?       @db.Text
+  couponId        String?
+  guideId         String?
+  vehicleId       String?
+  // pricing snapshot (server-computed)
+  subtotalMinor   Int
+  discountMinor   Int            @default(0)
+  taxMinor        Int            @default(0)
+  totalMinor      Int
+  currency        String        @default("MAD") @db.VarChar(3)
+  cancelReason    String?       @db.VarChar(320)
+  confirmedAt     DateTime?
+  cancelledAt     DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  deletedAt       DateTime?
+
+  customer       Customer        @relation(fields: [customerId], references: [id])
+  experience     Experience      @relation(fields: [experienceId], references: [id])
+  tourDate       TourDate?       @relation(fields: [tourDateId], references: [id], onDelete: SetNull)
+  pickupLocation PickupLocation? @relation(fields: [pickupLocationId], references: [id], onDelete: SetNull)
+  coupon         Coupon?         @relation(fields: [couponId], references: [id], onDelete: SetNull)
+  guide          Guide?          @relation(fields: [guideId], references: [id], onDelete: SetNull)
+  vehicle        Vehicle?        @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
+
+  items    BookingItem[]
+  guests2  BookingGuest[] @relation("BookingGuests")
+  payments Payment[]
+  review   Review?
+
+  @@index([status, date])
+  @@index([customerId])
+  @@index([experienceId, date])
+  @@index([guideId, date])
+  @@index([createdAt])
+  @@map("bookings")
+}
+
+model BookingItem {
+  id        String   @id @default(cuid())
+  bookingId String
+  label     String   @db.VarChar(200) // e.g. "Private transfer", "Lunch add-on"
+  quantity  Int      @default(1)
+  unitPriceMinor Int
+  totalMinor Int
+  createdAt DateTime @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+  @@map("booking_items")
+}
+
+model BookingGuest {
+  id         String   @id @default(cuid())
+  bookingId  String
+  firstName  String   @db.VarChar(100)
+  lastName   String   @db.VarChar(100)
+  isLead     Boolean  @default(false)
+  ageGroup   String?  @db.VarChar(20) // ADULT | CHILD | INFANT
+  createdAt  DateTime @default(now())
+
+  booking Booking @relation("BookingGuests", fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+  @@map("booking_guests")
+}
+
+model Payment {
+  id           String        @id @default(cuid())
+  bookingId    String
+  provider     String        @db.VarChar(40) // DEVELOPMENT | STRIPE | ...
+  providerRef  String?       @unique
+  amountMinor  Int
+  currency     String        @default("MAD") @db.VarChar(3)
+  status       PaymentStatus @default(PENDING)
+  mode         PaymentMode   @default(DEVELOPMENT)
+  failureNote  String?       @db.VarChar(320)
+  refundedMinor Int          @default(0)
+  paidAt       DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([bookingId])
+  @@map("payments")
+}
+
+model Coupon {
+  id              String    @id @default(cuid())
+  code            String    @unique
+  description     String?   @db.VarChar(320)
+  percentOff      Int?
+  fixedOffMinor   Int?
+  currency        String    @default("MAD") @db.VarChar(3)
+  redemptionLimit Int?
+  redeemedCount   Int       @default(0)
+  startsAt        DateTime?
+  expiresAt       DateTime?
+  active          Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  bookings Booking[]
+
+  @@index([active])
+  @@map("coupons")
+}
+
+model Review {
+  id          String       @id @default(cuid())
+  customerId  String
+  experienceId String
+  bookingId   String?      @unique // verified purchase — one review per booking
+  rating      Int          // 1..5
+  title       String?      @db.VarChar(160)
+  body        String       @db.Text
+  photos      Json? // string[]
+  status      ReviewStatus @default(PENDING)
+  moderatedBy String?
+  moderatedAt DateTime?
+  helpfulCount Int         @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+
+  customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  experience Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  booking    Booking?   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([experienceId, status])
+  @@index([status, createdAt])
+  @@map("reviews")
+}
+
+model Favorite {
+  userId       String
+  experienceId String
+  createdAt    DateTime @default(now())
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+
+  @@id([userId, experienceId])
+  @@map("favorites")
+}
+
+model TripPlan {
+  id         String   @id @default(cuid())
+  customerId String
+  title      String   @db.VarChar(160)
+  shareSlug  String   @unique
+  days       Int
+  style      String?  @db.VarChar(40)
+  interests  Json? // string[]
+  budget     String?  @db.VarChar(40)
+  groupType  String?  @db.VarChar(40)
+  itinerary  Json // [{ day, destination, experience, duration, description, costMinor }]
+  totalMinor Int      @default(0)
+  currency   String   @default("MAD") @db.VarChar(3)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@map("trip_plans")
+}
+
+// ------------------------------------------------------------
+// CRM — pipeline, activities, tasks, tags
+// ------------------------------------------------------------
+
+model CrmActivity {
+  id         String          @id @default(cuid())
+  customerId String
+  authorId   String?
+  type       CrmActivityType @default(NOTE)
+  body       String          @db.Text
+  createdAt  DateTime        @default(now())
+  deletedAt  DateTime?
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  author   User?    @relation("CrmActivityAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([customerId, createdAt])
+  @@index([authorId])
+  @@map("crm_activities")
+}
+
+model CrmTask {
+  id          String        @id @default(cuid())
+  customerId  String
+  assigneeId  String?
+  title       String        @db.VarChar(200)
+  dueAt       DateTime?
+  status      CrmTaskStatus @default(OPEN)
+  createdAt   DateTime      @default(now())
+  completedAt DateTime?
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  assignee User?    @relation("CrmTaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+
+  @@index([status, dueAt])
+  @@index([customerId])
+  @@index([assigneeId])
+  @@map("crm_tasks")
+}
+
+model CrmTag {
+  id        String   @id @default(cuid())
+  name      String   @unique @db.VarChar(60)
+  color     String?  @db.VarChar(20)
+  createdAt DateTime @default(now())
+
+  customers CustomerTag[]
+
+  @@map("crm_tags")
+}
+
+model CrmLead {
+  id                  String    @id @default(cuid())
+  fullName            String    @db.VarChar(200)
+  email               String    @unique @db.VarChar(320)
+  phone               String?   @db.VarChar(40)
+  source              String?   @db.VarChar(120)
+  notes               String?   @db.Text
+  stage               LeadStage @default(LEAD)
+  ownerId             String?
+  convertedCustomerId String?   @unique
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  owner             User?    @relation("CrmLeadOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  convertedCustomer Customer? @relation(fields: [convertedCustomerId], references: [id], onDelete: SetNull)
+
+  @@index([stage, createdAt])
+  @@index([ownerId])
+  @@map("crm_leads")
+}
+
+model CustomerTag {
+  customerId String
+  tagId      String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  tag        CrmTag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([customerId, tagId])
+  @@index([tagId])
+  @@map("customer_tags")
+}
+
+// ------------------------------------------------------------
+// Media
+// ------------------------------------------------------------
+
+model Media {
+  id        String   @id @default(cuid())
+  filename  String   @db.VarChar(255)
+  path      String   @db.VarChar(512) // public-relative path, e.g. /images/...
+  mimeType  String   @db.VarChar(100)
+  sizeBytes Int
+  width     Int?
+  height    Int?
+  alt       String?  @db.VarChar(320)
+  caption   String?  @db.VarChar(400)
+  uploadedBy String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  categoryCovers ExperienceCategory[] @relation("CategoryCover")
+  destinationCovers Destination[]     @relation("DestinationCover")
+  experienceCovers Experience[]       @relation("ExperienceCover")
+  tourCovers      Tour[]              @relation("TourCover")
+  blogCovers      BlogPost[]          @relation("BlogCover")
+  galleryItems    Gallery[]
+  mediaLinks      MediaLink[]
+
+  @@index([createdAt])
+  @@map("media")
+}
+
+model Gallery {
+  id            String   @id @default(cuid())
+  mediaId       String
+  experienceId  String?
+  destinationId String?
+  position      Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  media       Media        @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  experience  Experience?  @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  destination Destination? @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  @@index([experienceId, position])
+  @@index([destinationId, position])
+  @@map("galleries")
+}
+
+// Generic typed media attachment (blog posts, homepage blocks…)
+model MediaLink {
+  id         String   @id @default(cuid())
+  mediaId    String
+  entityType String   @db.VarChar(60) // BLOG_POST | HOME_BLOCK | ...
+  entityId   String
+  field      String?  @db.VarChar(60)
+  position   Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([entityType, entityId, field, position])
+  @@map("media_links")
+}
+
+// ------------------------------------------------------------
+// Content — blog, FAQ, messages, notifications, settings, i18n
+// ------------------------------------------------------------
+
+model BlogCategory {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String   @db.VarChar(120)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  posts BlogPost[]
+
+  @@map("blog_categories")
+}
+
+model BlogPost {
+  id             String        @id @default(cuid())
+  slug           String        @unique
+  title          String        @db.VarChar(200)
+  excerpt        String?       @db.VarChar(400)
+  body           String        @db.LongText
+  coverImageId   String?
+  categoryId     String?
+  authorName     String?       @db.VarChar(120)
+  status         ContentStatus @default(DRAFT)
+  publishedAt    DateTime?
+  readingMinutes Int           @default(5)
+  seoTitle       String?       @db.VarChar(180)
+  seoDescription String?       @db.VarChar(320)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  deletedAt      DateTime?
+
+  coverImage Media?         @relation("BlogCover", fields: [coverImageId], references: [id], onDelete: SetNull)
+  category   BlogCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([status, publishedAt])
+  @@map("blog_posts")
+}
+
+model Faq {
+  id           String   @id @default(cuid())
+  experienceId String?
+  question     String   @db.VarChar(300)
+  answer       String   @db.Text
+  category     String?  @db.VarChar(80)
+  position     Int      @default(0)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  experience Experience? @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+
+  @@index([active, category, position])
+  @@index([experienceId, active])
+  @@map("faqs")
+}
+
+model ContactMessage {
+  id        String        @id @default(cuid())
+  name      String        @db.VarChar(160)
+  email     String        @db.VarChar(255)
+  phone     String?       @db.VarChar(40)
+  subject   String?       @db.VarChar(200)
+  message   String        @db.Text
+  locale    String        @default("en") @db.VarChar(5)
+  status    ContactStatus @default(NEW)
+  repliedAt DateTime?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status, createdAt])
+  @@map("contact_messages")
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String           @db.VarChar(200)
+  body      String?          @db.VarChar(600)
+  payload   Json?
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+model SiteSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@map("site_settings")
+}
+
+model Translation {
+  entityType String // EXPERIENCE | DESTINATION | FAQ | BLOG_POST | ...
+  entityId   String
+  locale     String @db.VarChar(5)
+  field      String @db.VarChar(60)
+  value      String @db.Text
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+
+  @@id([entityType, entityId, locale, field])
+  @@index([locale])
+  @@map("translations")
+}

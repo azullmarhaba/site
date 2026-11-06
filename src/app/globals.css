@@ -1,0 +1,214 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* `light:` variant → theme attribute (set pre-paint by the inline script) */
+@custom-variant light (&:where([data-theme="light"] *));
+
+/* ------------------------------------------------------------
+   Theme — AZUL / MARHABA MOROCCO 2027
+   ------------------------------------------------------------ */
+@theme {
+  --color-obsidian: #080808;
+  --color-deep: #111111;
+  --color-carbon: #171614;
+  --color-ivory: #f5f1e8;
+  --color-ivory-dim: #e9e3d5;
+  --color-sand: #c89b6d;
+  --color-sand-bright: #dcb48b;
+  --color-clay: #9e2f2f;
+  --color-atlas: #53624d;
+
+  --font-display: var(--font-fraunces), "Didot", "Bodoni MT", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: var(--font-arabic), "Noto Sans Arabic", Tahoma, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", monospace;
+
+  --ease-out: var(--ease-azul);
+
+  --breakpoint-xs: 26.25rem; /* 420px — small-phone refinement */
+}
+
+/* ------------------------------------------------------------
+   Light theme — overrides the @theme colors above so every
+   utility (text-ivory, bg-obsidian, border-sand/40, …) flips
+   with the theme attribute.
+   ------------------------------------------------------------ */
+html[data-theme="light"] {
+  --color-obsidian: #f6f2e9;
+  --color-deep: #efe9db;
+  --color-carbon: #e7e0d1;
+  --color-ivory: #191712;
+  --color-ivory-dim: #3d3828;
+  --color-sand: #8a5a2b;
+  --color-sand-bright: #9a6636;
+  --color-clay: #9e2f2f;
+  --color-atlas: #46543f;
+}
+
+/* ------------------------------------------------------------
+   Base
+   ------------------------------------------------------------ */
+@layer base {
+  * {
+    border-color: var(--hairline-dark);
+  }
+
+  html {
+    background-color: var(--azul-obsidian);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  html[data-scroll-behavior="smooth"] {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--azul-obsidian);
+    color: var(--azul-ivory);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+  }
+
+  /* Arabic typography switch */
+  html[lang="ar"] body,
+  [lang="ar"] {
+    font-family: var(--font-arabic);
+    line-height: 1.75;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--azul-sand);
+    color: var(--azul-obsidian);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--azul-sand);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Subtle dark scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--azul-obsidian);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2823;
+    border: 3px solid var(--azul-obsidian);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--azul-sand);
+  }
+
+  /* Light-mode scrollbar + native control accents */
+  html[data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: #c9c0ac;
+    border: 3px solid var(--azul-obsidian);
+  }
+  html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--azul-sand);
+  }
+  html[data-theme="light"] {
+    caret-color: var(--azul-sand);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------
+   Utilities
+   ------------------------------------------------------------ */
+@utility container-azul {
+  width: min(80rem, 100% - (var(--gutter) * 2));
+  margin-inline: auto;
+}
+
+@utility container-narrow {
+  width: min(46rem, 100% - (var(--gutter) * 2));
+  margin-inline: auto;
+}
+
+/* Editorial micro-label */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--azul-sand);
+}
+
+/* Hairline rule used between editorial blocks */
+@utility hairline {
+  border-top: 1px solid var(--hairline-dark);
+}
+
+/* Marquee ticker (homepage) */
+@keyframes azul-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: azul-marquee 38s linear infinite;
+}
+
+/* Skip link */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  inset-inline-start: 1rem;
+  z-index: 200;
+  padding: 0.75rem 1.1rem;
+  background: var(--azul-sand);
+  color: var(--azul-obsidian);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  border-radius: 0 0 0.5rem 0.5rem;
+  transition: top 0.2s var(--ease-azul);
+}
+.skip-link:focus-visible {
+  top: 0;
+}
+
+/* Print — booking confirmation */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
